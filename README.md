@@ -9,7 +9,7 @@
 [![Tests: 26](https://img.shields.io/badge/tests-26%20passed-0f9d58)](tests)
 
 
-[![CI](https://github.com/NeonitTHeav3n/cbr-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/USER/cbr-analytics/actions/workflows/ci.yml)
+[![CI](https://github.com/NeonitTHeav3n/cbr-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/NeonitTHeav3n/cbr-analytics/actions/workflows/ci.yml)
 
 
 ![Дашборд](docs/dashboard.png)
@@ -92,7 +92,7 @@ flowchart LR
 ## 5. Быстрый старт
 
 ```bash
-git clone https://github.com/USER/cbr-analytics.git && cd cbr-analytics
+git clone https://github.com/NeonitTHeav3n/cbr-analytics.git && cd cbr-analytics
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 make install          # pip install -e ".[dev]"
 make all              # extract -> витрины -> проверки -> дашборд
