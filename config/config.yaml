@@ -1,0 +1,40 @@
+# Конфигурация пайплайна. Всё «магическое» — здесь, в коде магических чисел нет.
+
+pipeline:
+  # Период загрузки. end_date можно оставить null — тогда берётся сегодняшний день.
+  start_date: "2015-01-01"
+  end_date: null
+
+extract:
+  # Официальные источники Банка России (бесплатно, без токена)
+  currency_url: "https://www.cbr.ru/scripts/XML_dynamic.asp"
+  key_rate_url: "https://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx"
+  # VAL_NM_RQ — внутренний id валюты на cbr.ru
+  currencies:
+    USD: "R01235"
+    EUR: "R01239"
+    CNY: "R01375"
+  timeout_seconds: 30
+  max_retries: 4
+  # CBR отдаёт историю кусками по годам — так проще повторно запускать и не терять всё при сбое
+  chunk_years: 1
+
+load:
+  # duckdb   — локальный файл, ноль настройки (по умолчанию, так работает CI)
+  # postgres — docker-compose (нужен для Metabase)
+  engine: "duckdb"
+  duckdb_path: "data/cbr.duckdb"
+
+transform:
+  # Горизонты сравнения «вклад vs валюта», в днях
+  horizons_days: [30, 90, 180, 365, 1095]
+  # Окно для расчёта исторической волатильности
+  volatility_window_days: 30
+  # Период «коридора» простого прогноза
+  forecast_horizon_days: 30
+  # Дней публикации курса в году — для аннуализации волатильности
+  annualization_days: 252
+
+report:
+  output_dir: "docs"
+  title: "Курс рубля и ключевая ставка: что выгоднее"

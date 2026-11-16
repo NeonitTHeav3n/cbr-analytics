@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cbr-analytics"
+version = "0.1.0"
+description = "ETL + аналитические витрины по данным Банка России: курсы валют vs ключевая ставка"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.27",
+    "pandas>=2.0",
+    "pyyaml>=6.0",
+    "duckdb>=0.10",
+]
+
+[project.optional-dependencies]
+report = ["matplotlib>=3.8"]
+dev = ["pytest>=8", "ruff>=0.5", "psycopg[binary]>=3.1"]
+
+[project.scripts]
+cbr-analytics = "cbr_analytics.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# dashboard.py — это HTML-шаблон внутри f-строк: переносить разметку ради 100 символов вредно для читаемости
+"src/cbr_analytics/report/dashboard.py" = ["E501"]
